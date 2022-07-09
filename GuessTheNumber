@@ -10,7 +10,7 @@ int main()
 	int guessCount = 0;
 	int guessCorrect = false;
 
-	std::cout << "Try and guess the number 1 through 100 that I am thinking of.." << numberToGuess << std::endl;
+	std::cout << "Try and guess the number 1 through 100 that I am thinking of.." << std::endl;
 	
 	std::cin >> playerGuess;
 	guessCount++;
