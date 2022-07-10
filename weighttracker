@@ -1,0 +1,26 @@
+#include <iostream>
+#include <vector>
+#include <string>
+
+int main() 
+{
+	std::vector<std::string> nameList;
+	std::vector<int> weightList;
+	std::string name;
+	int weight;
+
+	for (int i = 0; i < 5; ++i) {
+		std::cout << "Enter the name of the person to be tracked" << std::endl;
+		std::getline(std::cin, name);
+		nameList.push_back(name);
+		std::cout << "Enter the weight of the person to be tracked" << std::endl;
+		std::cin >> weight;
+		std::cin.get();
+		weightList.push_back(weight);
+	}
+
+	for (int i = 0; i < 5; ++i) {
+		std::cout << nameList[i] << " weights " << weightList[i] << "lbs." << std::endl;
+	}
+	return 0;
+}
