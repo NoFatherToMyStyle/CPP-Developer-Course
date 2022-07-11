@@ -1,0 +1,171 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cctype>
+#include <stdlib.h>
+
+std::string chooseWord();
+void hangmanState(int countDownTilDead);
+
+int main() 
+{
+	std::string word;
+	bool isGameOver = false;
+	bool correctLetterGuess = false;
+	bool playAgain = true;
+	char playAgainChoice;
+	char letter;
+	int countdownTilDead = 6;
+	std::vector<char> wordVector;
+	std::vector<char> playField;
+	
+	while (playAgain == true) {
+		std::cout << "Welcome to two player hang man.\n" <<
+			"Please decide who will pick the first word and enter the word! Make sure they don't see it!"
+			<< std::endl;
+
+		word = chooseWord();
+		//coverts word to vector and makes it uppercase
+		std::copy(word.begin(), word.end(), std::back_inserter(wordVector));
+		for (int i = 0; i < wordVector.size(); ++i) {
+			wordVector[i] = toupper(wordVector[i]);
+		}
+		//makes a vector equal size with blanks
+		for (char c : wordVector) {
+			playField.push_back('_');
+		}
+
+		//clear screen
+		system("CLS");
+		std::cout << "Good choice, now I will clear the screen so they can't see!" << std::endl;
+		std::cout << "\nPlayer 2 guess a letter." << std::endl;
+		//start of game loop
+		while (isGameOver == false) {
+			std::cin >> letter;
+			//add in letter to correct spot if correct and make it uppercase
+			for (int i = 0; i < wordVector.size(); ++i) {
+				if (wordVector[i] == toupper(letter) || wordVector[i] == tolower(letter)) {
+					playField[i] = toupper(letter);
+				}
+			}
+			//check to see if letter was correct for upper
+			if (std::count(wordVector.begin(), wordVector.end(), tolower(letter))) {
+				correctLetterGuess = true;
+			}
+			if (std::count(wordVector.begin(), wordVector.end(), toupper(letter))) {
+				correctLetterGuess = true;
+			}
+			//display hangman if right or wrong,clear screen, reset bool guess
+			if (correctLetterGuess == true) {
+				system("CLS");
+				std::cout << "Good guess, pick another letter." << std::endl;
+				correctLetterGuess = false;
+				hangmanState(countdownTilDead);
+			}
+			else {
+				system("CLS");
+				std::cout << "That letter is wrong..try again.." << std::endl;
+				--countdownTilDead;
+				hangmanState(countdownTilDead);
+			}
+
+			//display word so far
+			for (char c : playField) {
+				std::cout << c;
+			}
+			//see if game is finished
+			if (wordVector == playField || countdownTilDead == 0) {
+				isGameOver = true;
+			}
+		}
+		//Check game over conditions
+		if (wordVector == playField) {
+			std::cout << "\nCongratulations you win!" << std::endl;
+		}
+		if (countdownTilDead == 0) {
+			std::cout << "\n\nYou hung this man.." << std::endl;
+		}
+		std::cout << "Enter Y to play again, anything else to exit." << std::endl;
+		std::cin >> playAgainChoice;
+		playAgainChoice = toupper(playAgainChoice);
+		//clear vectors to restart game if yes
+		if (playAgainChoice == 'Y') {
+			std::cout << "Player 1, choose your word" << std::endl;
+			wordVector.clear();
+			playField.clear();
+			isGameOver = false;
+			std::cin.get();
+		}
+		else {
+			std::cout << "Thank you for playing!" << std::endl;
+			playAgain = false;
+		}
+	}
+	return 0;
+}
+
+std::string chooseWord() {
+	std::string word;
+	std::getline(std::cin, word);
+	return word;
+}
+
+void hangmanState(int countdownTilDead) {
+	switch (countdownTilDead) {
+	case 6: std::cout << "|---|" << std::endl;
+			std::cout << "|   " << std::endl;
+			std::cout << "|  " << std::endl;
+			std::cout << "|  " << std::endl;
+			std::cout << "|" << std::endl;
+			std::cout << "------" << std::endl;
+			break;
+	case 5: 
+		std::cout << "|---|" << std::endl;
+		std::cout << "|   O" << std::endl;
+		std::cout << "|  " << std::endl;
+		std::cout << "|  " << std::endl;
+		std::cout << "|" << std::endl;
+		std::cout << "------" << std::endl;
+		break;
+	case 4:
+		std::cout << "|---|" << std::endl;
+		std::cout << "|   O" << std::endl;
+		std::cout << "|   |" << std::endl;
+		std::cout << "|  " << std::endl;
+		std::cout << "|" << std::endl;
+		std::cout << "------" << std::endl;
+		break;
+	case 3:
+		std::cout << "|---|" << std::endl;
+		std::cout << "|   O" << std::endl;
+		std::cout << "|  /|" << std::endl;
+		std::cout << "|  " << std::endl;
+		std::cout << "|" << std::endl;
+		std::cout << "------" << std::endl;
+		break;
+	case 2:
+		std::cout << "|---|" << std::endl;
+		std::cout << "|   O" << std::endl;
+		std::cout << "|  /|\\" << std::endl;
+		std::cout << "|  " << std::endl;
+		std::cout << "|" << std::endl;
+		std::cout << "------" << std::endl;
+		break;
+	case 1:
+		std::cout << "|---|" << std::endl;
+		std::cout << "|   O" << std::endl;
+		std::cout << "|  /|\\" << std::endl;
+		std::cout << "|  / " << std::endl;
+		std::cout << "|" << std::endl;
+		std::cout << "------" << std::endl;
+		break;
+	case 0:
+		std::cout << "|---|" << std::endl;
+		std::cout << "|   O" << std::endl;
+		std::cout << "|  /|\\" << std::endl;
+		std::cout << "|  / \\" << std::endl;
+		std::cout << "|" << std::endl;
+		std::cout << "------" << std::endl;
+		break;
+	}
+}
