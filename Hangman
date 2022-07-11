@@ -99,6 +99,7 @@ int main()
 		else {
 			std::cout << "Thank you for playing!" << std::endl;
 			playAgain = false;
+			system("pause");
 		}
 	}
 	return 0;
