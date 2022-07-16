@@ -95,6 +95,7 @@ int main()
 			playField.clear();
 			isGameOver = false;
 			std::cin.get();
+			countdownTilDead = 6;
 		}
 		else {
 			std::cout << "Thank you for playing!" << std::endl;
